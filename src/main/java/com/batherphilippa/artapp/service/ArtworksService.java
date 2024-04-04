@@ -1,6 +1,7 @@
 package com.batherphilippa.artapp.service;
 
-import com.batherphilippa.artapp.model.ArtworkOutput;
+import com.batherphilippa.artapp.model.Data;
+import com.batherphilippa.artapp.model.Artworks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.reactivex.Observable;
@@ -17,13 +18,13 @@ public class ArtworksService {
 
     public ArtworksService() {
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        // configurar HTTP client
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+        // configure HTTP client
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-        // Google JSON parser
+        // Google json parser
         Gson gsonParser = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -32,16 +33,19 @@ public class ArtworksService {
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gsonParser))
-                // permite el uso de observables y simula una API reactiva
+                // allows us to use observables and simulate a reactive api
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+
 
         // crear la interfaz
         this.artworksAPI = retrofit.create(ArtworksAPI.class);
     }
 
-    public Observable<ArtworkOutput> getArtworks(String artist) {
-        // TODO
-        return  null;
+    public Observable<String> getArtworks(String artist) {
+        return this.artworksAPI.getArtworksByArtist(artist)
+                .map(Artworks::getData)
+                .flatMapIterable(data -> data)
+                .map(Data::getTitle);
     }
 }

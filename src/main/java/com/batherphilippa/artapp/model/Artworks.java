@@ -1,19 +1,20 @@
 package com.batherphilippa.artapp.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
- * Artworks - los datos de obras recibidos según una busqueda para un artista.
+ * Artworks - los data de obras recibidos según una busqueda para un artista.
  */
-@Data
+@lombok.Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Artworks {
     private String preference;
     private Pagination pagination;
-    private com.batherphilippa.artapp.model.Data data;
+    private List<Data> data;
     private Info info;
     private Config config;
 }

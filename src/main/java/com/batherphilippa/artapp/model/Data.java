@@ -1,25 +1,22 @@
 package com.batherphilippa.artapp.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 /**
- * Artwork - información sobre la obra de un artista.
+ * Data - información sobre la obra de un artista.
  */
-@Data
+@lombok.Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Artwork {
-    private float _score;  // _score
+public class Data {
+    private float score;  // _score
     private Thumbnail thumbnail;
-    private String api_model;
-    private boolean is_boosted;
-    private String api_link;
+    private String apiModel;
+    private boolean isBoosted;
+    private String apiLink;
     private long id;
     private String title;
-    private LocalDateTime timestamp; // timestamp of the search
+    private String timestamp; // timestamp of the search
 
 }
